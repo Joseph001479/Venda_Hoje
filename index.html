@@ -1,0 +1,3107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Venda Hoje | Mentoria Digital de Alto Impacto</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <style>
+        :root {
+            --primary-color: #0A2540;
+            --primary-light: #1A365D;
+            --secondary-color: #FF7A00;
+            --secondary-dark: #E06D00;
+            --accent-color: #00D4FF;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B0B7C3;
+            --text-tertiary: #8A94A6;
+            --black: #000000;
+            --dark-bg: #0A0A0A;
+            --darker-bg: #050505;
+            --card-bg: #121212;
+            --card-border: #2A2A2A;
+            --gradient-primary: linear-gradient(135deg, #FF7A00 0%, #FF5500 100%);
+            --gradient-secondary: linear-gradient(135deg, #00D4FF 0%, #0088FF 100%);
+            --gradient-dark: linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 100%);
+            --shadow-light: 0 8px 30px rgba(255, 122, 0, 0.15);
+            --shadow-medium: 0 15px 50px rgba(0, 0, 0, 0.3);
+            --shadow-heavy: 0 25px 70px rgba(0, 0, 0, 0.5);
+            --border-radius: 16px;
+            --border-radius-lg: 24px;
+            --transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 120px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
+            line-height: 1.8;
+            background-color: var(--black);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255, 122, 0, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(0, 212, 255, 0.05) 0%, transparent 20%);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        section {
+            padding: 120px 0;
+            position: relative;
+        }
+
+        .section-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 30px;
+            line-height: 1.1;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            color: var(--text-secondary);
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 80px;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        /* Banner de Oferta - RESPONSIVO */
+        .offer-banner {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 14px 0;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1002;
+            box-shadow: 0 5px 25px rgba(255, 122, 0, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 5px 25px rgba(255, 122, 0, 0.3); }
+            50% { box-shadow: 0 5px 25px rgba(255, 122, 0, 0.6); }
+            100% { box-shadow: 0 5px 25px rgba(255, 122, 0, 0.3); }
+        }
+
+        .offer-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            padding: 0 10px;
+        }
+
+        .offer-tag {
+            background-color: rgba(0, 0, 0, 0.3);
+            color: white;
+            padding: 6px 15px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .offer-tag i {
+            font-size: 0.9rem;
+        }
+
+        .offer-text {
+            font-weight: 600;
+            font-size: clamp(0.85rem, 2vw, 1.1rem);
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        #countdown {
+            font-weight: 800;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 6px 15px;
+            border-radius: 50px;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            white-space: nowrap;
+        }
+
+        /* Header - RESPONSIVO CORRIGIDO */
+        header {
+            background-color: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            position: fixed;
+            width: 100%;
+            top: 53px;
+            z-index: 1001;
+            border-bottom: 1px solid var(--card-border);
+            transition: var(--transition);
+            padding: 15px 0;
+        }
+
+        .header-scrolled {
+            top: 0;
+            padding: 12px 0;
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-weight: 800;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            transform: scale(1.02);
+        }
+
+        .logo-icon {
+            width: clamp(40px, 8vw, 50px);
+            height: clamp(40px, 8vw, 50px);
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
+            box-shadow: var(--shadow-light);
+            flex-shrink: 0;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1;
+        }
+
+        .logo-sub {
+            font-size: clamp(0.6rem, 1.5vw, 0.9rem);
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-top: 4px;
+        }
+
+        .header-cta {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-guarantee {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            font-size: clamp(0.75rem, 1.5vw, 0.95rem);
+            white-space: nowrap;
+        }
+
+        .header-guarantee i {
+            color: #4CAF50;
+            font-size: clamp(1rem, 2vw, 1.2rem);
+        }
+
+        /* Hero Section - RESPONSIVO */
+        .hero {
+            padding-top: clamp(180px, 25vw, 220px);
+            padding-bottom: clamp(100px, 15vw, 160px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(255, 122, 0, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(0, 212, 255, 0.1) 0%, transparent 40%);
+            z-index: -1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: clamp(12px, 2vw, 16px) clamp(20px, 3vw, 32px);
+            border-radius: 50px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 30px;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            border: 1px solid var(--card-border);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .hero-badge i {
+            color: var(--secondary-color);
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+        }
+
+        .hero-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: clamp(2rem, 6vw, 4.2rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--secondary-color) 50%, var(--accent-color) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            padding: 0 10px;
+        }
+
+        .hero-title span {
+            display: block;
+            font-size: clamp(1.5rem, 5vw, 3.5rem);
+            margin-top: 12px;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
+            color: var(--text-secondary);
+            margin-bottom: clamp(40px, 6vw, 60px);
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 400;
+            line-height: 1.6;
+            padding: 0 15px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: var(--gradient-primary);
+            color: var(--text-primary);
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            font-weight: 700;
+            padding: clamp(18px, 3vw, 26px) clamp(40px, 6vw, 60px);
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            box-shadow: var(--shadow-light);
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.5px;
+            width: auto;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.6s;
+        }
+
+        .btn:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(255, 122, 0, 0.4);
+        }
+
+        .btn:hover::after {
+            left: 100%;
+        }
+
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 50px;
+            flex-wrap: wrap;
+            padding: 0 15px;
+        }
+
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-secondary);
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            padding: clamp(15px, 2vw, 20px) clamp(20px, 3vw, 30px);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-medium);
+            border: 1px solid var(--card-border);
+            transition: var(--transition);
+            flex: 1;
+            min-width: 250px;
+            max-width: 350px;
+        }
+
+        .trust-badge:hover {
+            transform: translateY(-5px);
+            border-color: var(--secondary-color);
+            background: rgba(255, 122, 0, 0.05);
+        }
+
+        .trust-badge i {
+            color: var(--secondary-color);
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+        }
+
+        /* ============================================
+           SEÇÃO DE VÍDEO YOUTUBE - LIMPA E PROFISSIONAL
+           ============================================ */
+        .video-section {
+            padding: clamp(80px, 10vw, 120px) 0;
+            background: var(--gradient-dark);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(255, 122, 0, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(0, 212, 255, 0.05) 0%, transparent 40%);
+            z-index: 0;
+        }
+
+        .video-container {
+            position: relative;
+            z-index: 2;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* Proporção 16:9 */
+            height: 0;
+            overflow: hidden;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-heavy);
+            border: 1px solid var(--card-border);
+            background-color: #000;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Seções Gerais - RESPONSIVO */
+        .what-is-section, .learning-section, .for-whom-section, .not-section, .confidence-section {
+            padding: clamp(60px, 10vw, 120px) 0;
+        }
+
+        .what-is-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .what-is-text {
+            font-size: clamp(1rem, 2vw, 1.4rem);
+            color: var(--text-secondary);
+            max-width: 1000px;
+            margin-bottom: clamp(40px, 6vw, 60px);
+            line-height: 1.8;
+            font-weight: 400;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            padding: clamp(30px, 5vw, 50px);
+            border-radius: var(--border-radius-lg);
+            border: 1px solid var(--card-border);
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .platforms-container {
+            background: var(--gradient-dark);
+            padding: clamp(30px, 5vw, 50px);
+            border-radius: var(--border-radius-lg);
+            width: 100%;
+            max-width: 1200px;
+            margin-top: 30px;
+            box-shadow: var(--shadow-heavy);
+            border: 1px solid var(--card-border);
+        }
+
+        .platforms-title {
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: clamp(25px, 4vw, 40px);
+            text-align: center;
+        }
+
+        .platforms {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .platform {
+            background: rgba(255, 255, 255, 0.03);
+            padding: clamp(18px, 3vw, 25px) clamp(15px, 2vw, 20px);
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+            border: 1px solid var(--card-border);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .platform i {
+            color: var(--secondary-color);
+            font-size: clamp(1.5rem, 3vw, 2.2rem);
+        }
+
+        /* Aprendizado - RESPONSIVO */
+        .learning-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .learning-card {
+            background: var(--gradient-dark);
+            padding: clamp(30px, 4vw, 50px) clamp(25px, 3vw, 40px);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-heavy);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+            z-index: 1;
+        }
+
+        .learning-card-icon {
+            width: clamp(70px, 10vw, 90px);
+            height: clamp(70px, 10vw, 90px);
+            background: rgba(255, 122, 0, 0.1);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 122, 0, 0.2);
+        }
+
+        .learning-card-icon i {
+            font-size: clamp(1.8rem, 3vw, 2.8rem);
+            color: var(--secondary-color);
+        }
+
+        .learning-card h3 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: clamp(1.2rem, 2vw, 1.6rem);
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .learning-card p {
+            color: var(--text-secondary);
+            font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+            line-height: 1.6;
+        }
+
+        /* Para quem é - RESPONSIVO */
+        .for-whom-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
+        }
+
+        .for-whom-card {
+            background: var(--gradient-dark);
+            padding: clamp(35px, 5vw, 50px) clamp(25px, 3vw, 40px);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-heavy);
+            transition: var(--transition);
+            border: 1px solid var(--card-border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .for-whom-icon {
+            width: clamp(60px, 8vw, 70px);
+            height: clamp(60px, 8vw, 70px);
+            background: rgba(76, 175, 80, 0.1);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            border: 1px solid rgba(76, 175, 80, 0.2);
+        }
+
+        .for-whom-icon i {
+            color: #4CAF50;
+            font-size: clamp(1.5rem, 2.5vw, 2rem);
+        }
+
+        .for-whom-card h3 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: clamp(1.2rem, 2vw, 1.5rem);
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .for-whom-card p {
+            color: var(--text-secondary);
+            font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+            line-height: 1.6;
+        }
+
+        /* O que não é - RESPONSIVO */
+        .not-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .not-card {
+            background: var(--gradient-dark);
+            padding: clamp(35px, 5vw, 50px) clamp(25px, 3vw, 40px);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-heavy);
+            transition: var(--transition);
+            border: 1px solid var(--card-border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .not-icon {
+            width: clamp(60px, 8vw, 70px);
+            height: clamp(60px, 8vw, 70px);
+            background: rgba(244, 67, 54, 0.1);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            border: 1px solid rgba(244, 67, 54, 0.2);
+        }
+
+        .not-icon i {
+            color: #f44336;
+            font-size: clamp(1.5rem, 2.5vw, 2rem);
+        }
+
+        .not-card h3 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: clamp(1.2rem, 2vw, 1.5rem);
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .not-card p {
+            color: var(--text-secondary);
+            font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+            line-height: 1.6;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, rgba(255, 152, 0, 0.1) 0%, rgba(255, 87, 34, 0.1) 100%);
+            border-left: 6px solid var(--secondary-color);
+            padding: clamp(25px, 4vw, 50px);
+            border-radius: var(--border-radius);
+            margin-top: 60px;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: var(--shadow-heavy);
+            border: 1px solid var(--card-border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .warning-box p {
+            font-size: clamp(0.95rem, 1.8vw, 1.2rem);
+            color: var(--text-primary);
+            margin-bottom: 0;
+            position: relative;
+            z-index: 2;
+            line-height: 1.7;
+        }
+
+        /* Preço - RESPONSIVO CORRIGIDO */
+        .pricing-section {
+            position: relative;
+            overflow: hidden;
+            padding: clamp(80px, 12vw, 120px) 0;
+        }
+
+        .pricing-card {
+            max-width: 700px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius-lg);
+            padding: clamp(40px, 6vw, 80px) clamp(30px, 4vw, 60px);
+            text-align: center;
+            color: var(--text-primary);
+            box-shadow: 
+                0 0 0 1px rgba(255, 122, 0, 0.2),
+                0 30px 100px rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--card-border);
+            position: relative;
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        .pricing-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-primary);
+            opacity: 0.05;
+            z-index: -1;
+        }
+
+        .pricing-badge {
+            display: inline-block;
+            background: var(--gradient-primary);
+            color: var(--text-primary);
+            padding: clamp(10px, 1.5vw, 12px) clamp(20px, 3vw, 30px);
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+            letter-spacing: 0.5px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            box-shadow: var(--shadow-light);
+        }
+
+        .pricing-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+            margin-bottom: 20px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--secondary-color) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* CONTAINER DE PREÇO CORRIGIDO */
+        .price-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 30px 0;
+            padding: 20px 0;
+        }
+
+        .old-price-container {
+            margin-bottom: 10px;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            color: var(--text-tertiary);
+            font-size: clamp(1.3rem, 2.5vw, 2rem);
+            font-weight: 600;
+            display: block;
+            text-align: center;
+        }
+
+        .price-wrapper {
+            position: relative;
+            display: inline-block;
+            margin: 15px 0;
+        }
+
+        .price {
+            font-size: clamp(3rem, 7vw, 5.5rem);
+            font-weight: 900;
+            color: var(--secondary-color);
+            text-shadow: 0 10px 30px rgba(255, 122, 0, 0.4);
+            line-height: 1;
+            display: flex;
+            align-items: flex-start;
+            gap: 5px;
+        }
+
+        .price-symbol {
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-top: 0.2em;
+        }
+
+        .price-value {
+            font-size: clamp(3rem, 7vw, 5.5rem);
+            line-height: 1;
+        }
+
+        .price-discount {
+            position: absolute;
+            top: -10px;
+            right: -20px;
+            background: var(--gradient-secondary);
+            color: var(--text-primary);
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: clamp(0.9rem, 1.8vw, 1.2rem);
+            box-shadow: var(--shadow-light);
+            white-space: nowrap;
+        }
+
+        .pricing-text {
+            margin: clamp(25px, 4vw, 40px) 0 clamp(30px, 5vw, 50px);
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            color: var(--text-secondary);
+            line-height: 1.7;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 10px;
+        }
+
+        .pricing-btn {
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+            padding: clamp(20px, 3vw, 30px) clamp(40px, 6vw, 80px);
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            display: block;
+            background: var(--gradient-primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-guarantee {
+            margin-top: 30px;
+            font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .guarantee-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(76, 175, 80, 0.1);
+            padding: 10px 20px;
+            border-radius: 50px;
+            border: 1px solid rgba(76, 175, 80, 0.2);
+            margin: 5px;
+            white-space: nowrap;
+        }
+
+        /* Confiança - RESPONSIVO */
+        .confidence-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .confidence-card {
+            text-align: center;
+            padding: clamp(40px, 5vw, 60px) clamp(25px, 3vw, 40px);
+            background: var(--gradient-dark);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-heavy);
+            transition: var(--transition);
+            border: 1px solid var(--card-border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .confidence-icon {
+            width: clamp(80px, 10vw, 100px);
+            height: clamp(80px, 10vw, 100px);
+            background: rgba(255, 122, 0, 0.1);
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            border: 1px solid rgba(255, 122, 0, 0.2);
+        }
+
+        .confidence-icon i {
+            font-size: clamp(2.5rem, 4vw, 3.5rem);
+            color: var(--secondary-color);
+        }
+
+        .confidence-card h3 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: clamp(1.2rem, 2vw, 1.6rem);
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .confidence-card p {
+            color: var(--text-secondary);
+            font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+            line-height: 1.6;
+        }
+
+        /* Footer - RESPONSIVO */
+        footer {
+            background: var(--gradient-dark);
+            color: var(--text-primary);
+            padding: clamp(60px, 10vw, 100px) 0 clamp(30px, 5vw, 50px);
+            position: relative;
+            overflow: hidden;
+            border-top: 1px solid var(--card-border);
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .footer-logo-icon {
+            width: clamp(50px, 8vw, 60px);
+            height: clamp(50px, 8vw, 60px);
+            background: var(--gradient-primary);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+        }
+
+        .footer-subtitle {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            max-width: 600px;
+        }
+
+        .footer-contact {
+            margin: 30px 0;
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .footer-contact a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--card-border);
+            margin: 0 auto;
+            max-width: 400px;
+        }
+
+        .footer-legal {
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid var(--card-border);
+            font-size: clamp(0.85rem, 1.5vw, 1rem);
+            color: var(--text-tertiary);
+            max-width: 800px;
+            line-height: 1.8;
+            padding: 0 20px;
+        }
+
+        /* Media Queries Específicas */
+        @media (max-width: 1400px) {
+            .container {
+                padding: 0 30px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .container {
+                padding: 0 25px;
+            }
+            
+            .header-container {
+                padding: 0 15px;
+            }
+            
+            .offer-content {
+                gap: 10px;
+            }
+            
+            .trust-badge {
+                min-width: 200px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 20px;
+            }
+            
+            section {
+                padding: 80px 0;
+            }
+            
+            .header-container {
+                padding: 0 10px;
+            }
+            
+            .header-cta {
+                gap: 15px;
+            }
+            
+            .hero-badge {
+                flex-wrap: wrap;
+                justify-content: center;
+                text-align: center;
+            }
+            
+            .learning-cards,
+            .confidence-grid,
+            .for-whom-grid,
+            .not-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            
+            .platforms {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .trust-badges {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .trust-badge {
+                max-width: 100%;
+                min-width: unset;
+                width: 100%;
+            }
+            
+            .pricing-guarantee {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .guarantee-badge {
+                width: 100%;
+                justify-content: center;
+                padding: 12px 15px;
+            }
+            
+            /* Ajustes específicos para preço em mobile */
+            .price-discount {
+                position: relative;
+                top: 0;
+                right: 0;
+                margin-top: 15px;
+                display: inline-block;
+            }
+            
+            .price-wrapper {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            .offer-banner {
+                padding: 10px 0;
+            }
+            
+            .offer-content {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .offer-tag, #countdown {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            header {
+                padding: 10px 0;
+            }
+            
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .header-cta {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .hero {
+                padding-top: 200px;
+            }
+            
+            .hero-title, .hero-subtitle {
+                padding: 0 5px;
+            }
+            
+            .btn {
+                width: 100%;
+                padding: 20px;
+            }
+            
+            .platforms {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-logo {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-contact a {
+                padding: 12px 20px;
+                font-size: 0.95rem;
+            }
+            
+            /* Ajustes finos para preço em telas muito pequenas */
+            .price {
+                flex-direction: column;
+                align-items: center;
+                gap: 5px;
+            }
+            
+            .price-symbol {
+                margin-top: 0;
+            }
+            
+            .price-value {
+                font-size: clamp(2.5rem, 6vw, 3.5rem);
+            }
+        }
+
+        @media (max-width: 400px) {
+            .container {
+                padding: 0 10px;
+            }
+            
+            .hero-badge {
+                padding: 10px 15px;
+                font-size: 0.85rem;
+            }
+            
+            .trust-badge {
+                padding: 15px;
+            }
+            
+            .platform {
+                padding: 15px 10px;
+            }
+            
+            .learning-card,
+            .confidence-card,
+            .for-whom-card,
+            .not-card {
+                padding: 25px 20px;
+            }
+            
+            .pricing-card {
+                padding: 30px 20px;
+            }
+            
+            .guarantee-badge {
+                padding: 10px 12px;
+                font-size: 0.85rem;
+            }
+        }
+
+        /* ============================================
+           MODAL DE CHECKOUT PROFISSIONAL
+           ============================================ */
+
+        .checkout-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.98);
+            backdrop-filter: blur(15px);
+            z-index: 9999;
+            overflow-y: auto;
+            animation: modalFadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                backdrop-filter: blur(0);
+            }
+            to {
+                opacity: 1;
+                backdrop-filter: blur(15px);
+            }
+        }
+
+        .checkout-container {
+            background: linear-gradient(165deg, #0A0A0A 0%, #121212 50%, #0F0F0F 100%);
+            max-width: 550px;
+            margin: 40px auto;
+            border-radius: 28px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(255, 122, 0, 0.15);
+            box-shadow: 
+                0 30px 100px rgba(0, 0, 0, 0.8),
+                0 0 0 1px rgba(255, 122, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            animation: slideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .checkout-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 35px;
+            background: linear-gradient(90deg, rgba(255, 122, 0, 0.1) 0%, transparent 100%);
+            border-bottom: 1px solid rgba(255, 122, 0, 0.1);
+        }
+
+        .checkout-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .checkout-logo i {
+            font-size: 1.4rem;
+        }
+
+        .close-checkout {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .close-checkout:hover {
+            background: rgba(255, 122, 0, 0.1);
+            color: var(--secondary-color);
+            transform: rotate(90deg);
+        }
+
+        .checkout-content {
+            padding: 35px;
+        }
+
+        /* Order Summary */
+        .order-summary {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .order-summary h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .order-summary h3 i {
+            color: var(--secondary-color);
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .item-name {
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .item-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .item-price {
+            color: var(--text-primary);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .order-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+            margin-top: 15px;
+            border-top: 2px solid rgba(255, 122, 0, 0.2);
+        }
+
+        .total-label {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .total-price {
+            color: var(--secondary-color);
+            font-weight: 800;
+            font-size: 2rem;
+            text-shadow: 0 0 20px rgba(255, 122, 0, 0.3);
+        }
+
+        /* Checkout Steps */
+        .checkout-steps {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 35px 0;
+            position: relative;
+        }
+
+        .checkout-steps::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 50px;
+            right: 50px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 1;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+
+        .step-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .step.active .step-icon {
+            background: var(--gradient-primary);
+            border-color: var(--secondary-color);
+            color: white;
+            box-shadow: 0 0 20px rgba(255, 122, 0, 0.3);
+        }
+
+        .step-text {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .step.active .step-text {
+            color: var(--secondary-color);
+        }
+
+        /* PIX Payment Section */
+        .pix-payment-section {
+            display: none;
+        }
+
+        .pix-payment-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .pix-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .pix-header i {
+            color: var(--secondary-color);
+            font-size: 1.8rem;
+        }
+
+        .pix-header h4 {
+            color: var(--text-primary);
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .pix-features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .feature {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 15px;
+            background: rgba(255, 122, 0, 0.05);
+            border: 1px solid rgba(255, 122, 0, 0.1);
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .feature:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 122, 0, 0.08);
+        }
+
+        .feature i {
+            color: var(--secondary-color);
+            font-size: 1.4rem;
+        }
+
+        .feature span {
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* QR Code Area */
+        .pix-qr-area {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .loading {
+            padding: 60px 30px;
+            text-align: center;
+        }
+
+        .loading-content {
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .loading-spinner {
+            width: 70px;
+            height: 70px;
+            border: 4px solid rgba(255, 122, 0, 0.1);
+            border-top: 4px solid var(--secondary-color);
+            border-radius: 50%;
+            animation: spin 1.2s linear infinite;
+            margin: 0 auto 25px;
+            position: relative;
+        }
+
+        .loading-spinner::after {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border: 3px solid rgba(255, 122, 0, 0.05);
+            border-radius: 50%;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading p {
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .loading-sub {
+            color: var(--text-secondary) !important;
+            font-size: 0.95rem !important;
+            font-weight: 400 !important;
+        }
+
+        /* QR Code Container */
+        .qr-code-container {
+            padding: 30px;
+        }
+
+        .qr-code-wrapper {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 25px;
+            background: white;
+            border-radius: 16px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .qr-code-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-top: 15px;
+            font-size: 0.95rem;
+        }
+
+        .qr-code-label i {
+            color: var(--secondary-color);
+            font-size: 1.1rem;
+        }
+
+        /* PIX Code Section */
+        .pix-code-section {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .section-header i {
+            color: var(--secondary-color);
+        }
+
+        .pix-code-box {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 18px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            word-break: break-all;
+            margin-bottom: 15px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .copy-btn {
+            width: 100%;
+            padding: 16px;
+            background: rgba(255, 122, 0, 0.1);
+            border: 1px solid rgba(255, 122, 0, 0.2);
+            color: var(--secondary-color);
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .copy-btn:hover {
+            background: rgba(255, 122, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Pix Instructions */
+        .pix-instructions {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .timer-section {
+            text-align: center;
+        }
+
+        .timer-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .timer-header i {
+            color: var(--secondary-color);
+        }
+
+        .timer-circle {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+        }
+
+        .timer-svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .timer-background {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.05);
+            stroke-width: 8;
+        }
+
+        .timer-progress {
+            fill: none;
+            stroke: var(--secondary-color);
+            stroke-width: 8;
+            stroke-linecap: round;
+            stroke-dasharray: 283;
+            stroke-dashoffset: 283;
+            transition: stroke-dashoffset 1s linear;
+        }
+
+        .timer-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--text-primary);
+            font-size: 1.3rem;
+            font-weight: 800;
+            font-family: 'Courier New', monospace;
+        }
+
+        .instructions-list {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        .instructions-list h5 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .instructions-list h5 i {
+            color: var(--secondary-color);
+        }
+
+        .instructions-list ol {
+            padding-left: 20px;
+            margin: 0;
+        }
+
+        .instructions-list li {
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .instructions-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Payment Status */
+        .payment-status {
+            background: linear-gradient(135deg, rgba(255, 122, 0, 0.1) 0%, rgba(255, 87, 34, 0.1) 100%);
+            border: 1px solid rgba(255, 122, 0, 0.2);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        .status-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .status-icon i {
+            color: var(--secondary-color);
+            font-size: 2.5rem;
+        }
+
+        .status-text h5 {
+            color: var(--text-primary);
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .status-text p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        /* Checkout Actions */
+        .checkout-actions {
+            display: grid;
+            gap: 15px;
+            margin: 35px 0 25px;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 20px;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 10px 30px rgba(255, 122, 0, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 122, 0, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-secondary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+        }
+
+        /* Checkout Guarantees */
+        .checkout-guarantees {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .guarantee-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            text-align: center;
+            padding: 15px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .guarantee-item i {
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+        }
+
+        .guarantee-item span {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Responsividade do Modal */
+        @media (max-width: 768px) {
+            .checkout-container {
+                margin: 20px;
+                border-radius: 24px;
+            }
+            
+            .checkout-header {
+                padding: 20px;
+            }
+            
+            .checkout-content {
+                padding: 25px;
+            }
+            
+            .pix-instructions {
+                grid-template-columns: 1fr;
+            }
+            
+            .qr-code-wrapper {
+                padding: 20px;
+            }
+            
+            .checkout-guarantees {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .checkout-container {
+                margin: 10px;
+                border-radius: 20px;
+            }
+            
+            .checkout-content {
+                padding: 20px;
+            }
+            
+            .order-summary {
+                padding: 20px;
+            }
+            
+            .pix-features {
+                grid-template-columns: 1fr;
+            }
+            
+            .qr-code-container {
+                padding: 20px;
+            }
+            
+            .pix-code-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Banner de Oferta Ultra -->
+    <div class="offer-banner">
+        <div class="container">
+            <div class="offer-content">
+                <div class="offer-tag">
+                    <i class="fas fa-bolt"></i>
+                    OFERTA RELÂMPAGO
+                </div>
+                <div class="offer-text">PREÇO PROMOCIONAL VÁLIDO POR APENAS <span id="countdown">24:00:00</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header Ultra Premium -->
+    <header id="main-header">
+        <div class="container header-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="logo-text">
+                    <span>VENDA HOJE</span>
+                    <div class="logo-sub">MENTORIA DIGITAL PREMIUM</div>
+                </div>
+            </a>
+            
+            <div class="header-cta">
+                <div class="header-guarantee">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>100% Seguro • Garantia de 7 Dias</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section Ultra Premium -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-crown"></i>
+                    <span>MENTORIA DIGITAL DE ALTO IMPACTO</span>
+                </div>
+                <h1 class="hero-title">
+                    Aprenda a Vender Qualquer Produto Ainda Hoje
+                    <span>Em Qualquer Plataforma Online</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Método prático e comprovado para iniciantes que desejam aprender a vender online de forma correta, 
+                    sem promessas irreais. Do zero às primeiras vendas em 7 dias com estratégias que funcionam em qualquer canal.
+                </p>
+                <a href="#pricing" class="btn">
+                    <i class="fas fa-gem"></i>
+                    QUERO ACESSAR A MENTORIA AGORA
+                </a>
+                
+                <div class="trust-badges">
+                    <div class="trust-badge">
+                        <i class="fas fa-award"></i>
+                        <span>Conteúdo Educacional Premium</span>
+                    </div>
+                    <div class="trust-badge">
+                        <i class="fas fa-bolt"></i>
+                        <span>Acesso Imediato e Vitalício</span>
+                    </div>
+                    <div class="trust-badge">
+                        <i class="fas fa-headset"></i>
+                        <span>Suporte Premium Dedicado</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SEÇÃO DE VÍDEO YOUTUBE - LIMPA E PROFISSIONAL
+         ============================================ -->
+    <section class="video-section" id="video-section">
+        <div class="container">
+            <h2 class="section-title">Assista ao Vídeo Explicativo</h2>
+            <p class="section-subtitle">Veja como a mentoria Venda Hoje pode transformar sua jornada nas vendas online</p>
+            
+            <div class="video-container">
+                <div class="video-wrapper">
+                    <iframe 
+                        width="100%" 
+                        height="100%" 
+                        src="https://www.youtube.com/embed/1FBkJIMZA9Y?si=mv0bRTl1hVPw6tu0" 
+                        title="Venda Hoje - Mentoria Digital" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- O que é o Venda Hoje - Seção Ultra -->
+    <section class="what-is-section">
+        <div class="container">
+            <h2 class="section-title">O Que é o Venda Hoje</h2>
+            <p class="section-subtitle">A mentoria digital definitiva para quem quer aprender a vender online do zero, com método comprovado e aplicação prática</p>
+            <div class="what-is-content">
+                <p class="what-is-text">
+                    O <strong>Venda Hoje</strong> é uma mentoria digital premium criada para ensinar o método completo de vendas online de forma simples, direta e 100% aplicável em qualquer canal digital. Nosso foco principal não está no produto específico, mas na <strong>estratégia correta de venda</strong> que funciona independentemente da plataforma escolhida, do nicho de atuação ou do nível de experiência.
+                </p>
+                
+                <div class="platforms-container">
+                    <div class="platforms-title">APLICÁVEL EM TODAS ESTAS PLATAFORMAS E MUITO MAIS</div>
+                    <div class="platforms">
+                        <div class="platform">
+                            <i class="fab fa-shopify"></i>
+                            <span>Shopee</span>
+                        </div>
+                        <div class="platform">
+                            <i class="fas fa-store"></i>
+                            <span>Mercado Livre</span>
+                        </div>
+                        <div class="platform">
+                            <i class="fas fa-shopping-bag"></i>
+                            <span>Loja Própria</span>
+                        </div>
+                        <div class="platform">
+                            <i class="fab fa-instagram"></i>
+                            <span>Instagram</span>
+                        </div>
+                        <div class="platform">
+                            <i class="fab fa-whatsapp"></i>
+                            <span>WhatsApp</span>
+                        </div>
+                        <div class="platform">
+                            <i class="fab fa-facebook"></i>
+                            <span>Facebook</span>
+                        </div>
+                        <div class="platform">
+                            <i class="fas fa-store-alt"></i>
+                            <span>Amazon</span>
+                        </div>
+                        <div class="platform">
+                            <i class="fab fa-tiktok"></i>
+                            <span>TikTok</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- O que você vai aprender - Seção Ultra -->
+    <section class="learning-section">
+        <div class="container">
+            <h2 class="section-title">O Que Você Vai Aprender</h2>
+            <p class="section-subtitle">Conhecimentos práticos e estratégias avançadas para dominar as vendas online em qualquer plataforma</p>
+            
+            <div class="learning-cards">
+                <div class="learning-card">
+                    <div class="learning-card-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Análise de Mercado e Identificação de Oportunidades</h3>
+                    <p>Método completo para identificar produtos com demanda real, analisar concorrência e encontrar oportunidades lucrativas no mercado digital.</p>
+                </div>
+                
+                <div class="learning-card">
+                    <div class="learning-card-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3>Estruturação de Ofertas Irresistíveis</h3>
+                    <p>Técnicas avançadas de copywriting e psicologia de vendas para criar ofertas que convertem visitantes em clientes pagantes.</p>
+                </div>
+                
+                <div class="learning-card">
+                    <div class="learning-card-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Estratégias de Venda sem Audiência Pronta</h3>
+                    <p>Como começar a vender mesmo sem seguidores, usando estratégias de atração e conversão que funcionam do zero.</p>
+                </div>
+                
+                <div class="learning-card">
+                    <div class="learning-card-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Multiplataforma e Adaptação Estratégica</h3>
+                    <p>Como adaptar sua estratégia de vendas para diferentes plataformas, maximizando resultados em cada canal específico.</p>
+                </div>
+                
+                <div class="learning-card">
+                    <div class="learning-card-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3>Construção de Confiança e Credibilidade</h3>
+                    <p>Técnicas psicológicas avançadas para criar autoridade, transmitir confiança e reduzir objeções dos clientes.</p>
+                </div>
+                
+                <div class="learning-card">
+                    <div class="learning-card-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>Automatização e Escalabilidade</h3>
+                    <p>Como organizar e automatizar seu processo de vendas para trabalhar menos e vender mais, preparando para escalar seus resultados.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Para quem é - Seção Ultra -->
+    <section class="for-whom-section">
+        <div class="container">
+            <h2 class="section-title">Para Quem é Esta Mentoria</h2>
+            <p class="section-subtitle">Identifique se você se encaixa no perfil ideal para transformar seus resultados com nosso método</p>
+            
+            <div class="for-whom-grid">
+                <div class="for-whom-card">
+                    <div class="for-whom-icon">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <h3>Iniciantes Completos</h3>
+                    <p>Para quem está começando do zero no mundo das vendas online e precisa de uma base sólida e orientação prática.</p>
+                </div>
+                
+                <div class="for-whom-card">
+                    <div class="for-whom-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <h3>Transição de Carreira</h3>
+                    <p>Profissionais que desejam migrar para o digital e precisam aprender a vender online de forma estruturada.</p>
+                </div>
+                
+                <div class="for-whom-card">
+                    <div class="for-whom-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <h3>Renda Extra Consistente</h3>
+                    <p>Quem busca uma fonte de renda adicional honesta e escalável, sem abandonar o emprego atual.</p>
+                </div>
+                
+                <div class="for-whom-card">
+                    <div class="for-whom-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3>Empreendedores Digitais</h3>
+                    <p>Quem já tem um negócio mas quer expandir para o online ou melhorar suas técnicas de venda digital.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- O que não é - Seção Ultra -->
+    <section class="not-section">
+        <div class="container">
+            <h2 class="section-title">O Que Esta Mentoria Não É</h2>
+            <p class="section-subtitle">Transparência total sobre o que você NÃO vai encontrar - Honestidade desde o início</p>
+            
+            <div class="not-grid">
+                <div class="not-card">
+                    <div class="not-icon">
+                        <i class="fas fa-ban"></i>
+                    </div>
+                    <h3>NÃO é Promessa de Riqueza Rápida</h3>
+                    <p>Ensinamos o método comprovado, mas os resultados dependem da sua aplicação, dedicação e condições de mercado. Sucesso exige trabalho consistente.</p>
+                </div>
+                
+                <div class="not-card">
+                    <div class="not-icon">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <h3>NÃO é Fórmula Mágica</h3>
+                    <p>O processo exige aprendizado contínuo e prática, como qualquer habilidade valiosa. Não existem atalhos para o sucesso duradouro.</p>
+                </div>
+                
+                <div class="not-card">
+                    <div class="not-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h3>NÃO é Esquema ou Golpe</h3>
+                    <p>É um conteúdo educacional premium legítimo, com metodologia transparente e foco no aprendizado real, não em promessas vazias ou ilusórias.</p>
+                </div>
+            </div>
+            
+            <div class="warning-box">
+                <p><strong>AVISO PROFISSIONAL OBRIGATÓRIO:</strong> Os resultados podem variar significativamente de acordo com a aplicação do método, dedicação individual, experiência anterior, condições de mercado e outros fatores. Este é um produto educacional que ensina técnicas e estratégias de vendas online, não garante resultados financeiros específicos. O sucesso nas vendas depende de múltiplos fatores além do conhecimento técnico, incluindo execução consistente, adaptação ao mercado e fatores externos não controláveis.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Preço - SEÇÃO COMPLETAMENTE CORRIGIDA -->
+    <section id="pricing" class="pricing-section">
+        <div class="container">
+            <h2 class="section-title">Investimento em Conhecimento</h2>
+            <p class="section-subtitle">Valor simbólico por um conteúdo que pode transformar completamente sua trajetória digital</p>
+            
+            <div class="pricing-card">
+                <div class="pricing-badge">OFERTA EXCLUSIVA POR TEMPO LIMITADO</div>
+                <h3 class="pricing-title">ACESSO VITALÍCIO COMPLETO</h3>
+                
+                <div class="price-container">
+                    <div class="old-price-container">
+                        <div class="old-price">DE R$ 297,90</div>
+                    </div>
+                    
+                    <div class="price-wrapper">
+                        <div class="price">
+                            <span class="price-symbol">R$</span>
+                            <span class="price-value">8,90</span>
+                        </div>
+                        <div class="price-discount">-97%</div>
+                    </div>
+                </div>
+                
+                <p class="pricing-text">
+                    O valor é <strong>simbólico e promocional</strong>, definido para tornar o conhecimento premium acessível a quem está começando. 
+                    Equivale a menos de <strong>R$ 0,30 por dia</strong> se considerar acesso vitalício por um ano.
+                </p>
+                
+                <button class="btn pricing-btn" id="checkout-button">
+                    <i class="fas fa-lock"></i>
+                    GARANTIR MEU ACESSO AGORA
+                </button>
+                
+                <div class="pricing-guarantee">
+                    <div class="guarantee-badge">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Pagamento 100% Seguro</span>
+                    </div>
+                    <div class="guarantee-badge">
+                        <i class="fas fa-bolt"></i>
+                        <span>Acesso Imediato</span>
+                    </div>
+                    <div class="guarantee-badge">
+                        <i class="fas fa-gem"></i>
+                        <span>Conteúdo Premium</span>
+                    </div>
+                    <div class="guarantee-badge">
+                        <i class="fas fa-clock"></i>
+                        <span>Acesso Vitalício</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Confiança - Seção Ultra -->
+    <section class="confidence-section">
+        <div class="container">
+            <h2 class="section-title">Por Que Confiar no Método Venda Hoje</h2>
+            <p class="section-subtitle">Elementos que garantem credibilidade, eficácia e profissionalismo em cada detalhe</p>
+            
+            <div class="confidence-grid">
+                <div class="confidence-card">
+                    <div class="confidence-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Conteúdo Educacional Estruturado</h3>
+                    <p>Material didático premium organizado em módulos progressivos para aprendizado eficaz e aplicação prática imediata.</p>
+                </div>
+                
+                <div class="confidence-card">
+                    <div class="confidence-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <h3>Método Universalmente Aplicável</h3>
+                    <p>Estratégias que funcionam em qualquer plataforma de vendas, sem limitações técnicas, de nicho ou experiência prévia.</p>
+                </div>
+                
+                <div class="confidence-card">
+                    <div class="confidence-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>Linguagem Clara e Direta</h3>
+                    <p>Explicações objetivas e didáticas, sans jargões desnecessários ou complicações teóricas. Aprendizado acelerado.</p>
+                </div>
+                
+                <div class="confidence-card">
+                    <div class="confidence-icon">
+                        <i class="fas fa-life-ring"></i>
+                    </div>
+                    <h3>Suporte Dedicado Premium</h3>
+                    <p>Suporte especializado por e-mail para esclarecer dúvidas e garantir sua evolução constante no método.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Ultra Premium -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <div class="footer-logo-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div>
+                        VENDA <span>HOJE</span>
+                        <div class="footer-subtitle">MENTORIA DIGITAL PREMIUM</div>
+                    </div>
+                </div>
+                
+                <div class="footer-contact">
+                    <a href="mailto:suporte.vendahoje@gmail.com">
+                        <i class="fas fa-envelope"></i> 
+                        <span>suporte.vendahoje@gmail.com</span>
+                    </a>
+                </div>
+                
+                <div class="footer-legal">
+                    <p>Este produto é estritamente educacional e não garante resultados financeiros específicos. As estratégias apresentadas são sugestões educativas baseadas em métodos comprovados, e cada indivíduo é integralmente responsável por sua aplicação prática e pelos resultados obtidos. Todas as marcas mencionadas são propriedade de seus respectivos titulares e são utilizadas apenas para fins de identificação e descrição.</p>
+                    <p style="margin-top: 20px;">© 2023 VENDA HOJE – MENTORIA DIGITAL PREMIUM. Todos os direitos reservados. Este site não é afiliado ao Facebook, Instagram, WhatsApp, Shopee, Mercado Livre ou qualquer outra plataforma mencionada.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal de Checkout PROFISSIONAL -->
+    <div class="checkout-modal" id="checkoutModal">
+        <div class="checkout-container">
+            <!-- Header do Modal -->
+            <div class="checkout-header">
+                <div class="checkout-logo">
+                    <i class="fas fa-lock"></i>
+                    <span>CHECKOUT SEGURO</span>
+                </div>
+                <button class="close-checkout" id="closeCheckout">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <!-- Conteúdo Principal -->
+            <div class="checkout-content">
+                <!-- Resumo do Pedido -->
+                <div class="order-summary">
+                    <h3><i class="fas fa-shopping-bag"></i> RESUMO DO PEDIDO</h3>
+                    <div class="order-item">
+                        <div class="item-info">
+                            <div class="item-name">Mentoria Venda Hoje</div>
+                            <div class="item-desc">Acesso Vitalício Completo</div>
+                        </div>
+                        <div class="item-price">R$ 8,90</div>
+                    </div>
+                    <div class="order-total">
+                        <div class="total-label">TOTAL A PAGAR</div>
+                        <div class="total-price">R$ 8,90</div>
+                    </div>
+                </div>
+                
+                <!-- Etapas do Checkout -->
+                <div class="checkout-steps">
+                    <div class="step active" data-step="1">
+                        <div class="step-icon">1</div>
+                        <div class="step-text">Pagamento</div>
+                    </div>
+                    <div class="step" data-step="2">
+                        <div class="step-icon">2</div>
+                        <div class="step-text">Confirmação</div>
+                    </div>
+                </div>
+                
+                <!-- PIX Payment -->
+                <div class="pix-payment-section active">
+                    <div class="pix-header">
+                        <i class="fas fa-qrcode"></i>
+                        <h4>PAGAMENTO VIA PIX</h4>
+                    </div>
+                    
+                    <div class="pix-features">
+                        <div class="feature">
+                            <i class="fas fa-bolt"></i>
+                            <span>Pagamento instantâneo</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>100% seguro</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <span>Sem taxas adicionais</span>
+                        </div>
+                    </div>
+                    
+                    <!-- QR Code Area -->
+                    <div class="pix-qr-area" id="pixArea">
+                        <div class="loading" id="pixLoading">
+                            <div class="loading-content">
+                                <div class="loading-spinner"></div>
+                                <p>Gerando QR Code PIX...</p>
+                                <p class="loading-sub">Preparando sua transação segura</p>
+                            </div>
+                        </div>
+                        
+                        <div id="pixContent" style="display: none;">
+                            <div class="qr-code-container">
+                                <div class="qr-code-wrapper">
+                                    <div id="qrCodeContainer"></div>
+                                    <div class="qr-code-label">
+                                        <i class="fas fa-mobile-alt"></i>
+                                        Escaneie com seu app de banco
+                                    </div>
+                                </div>
+                                
+                                <div class="pix-code-section">
+                                    <div class="section-header">
+                                        <i class="fas fa-copy"></i>
+                                        <span>CÓDIGO PIX (COPIA E COLA)</span>
+                                    </div>
+                                    <div class="pix-code-box" id="pixCopy">
+                                        <!-- Código PIX será inserido aqui -->
+                                    </div>
+                                    <button class="copy-btn" id="copyPixBtn">
+                                        <i class="fas fa-copy"></i>
+                                        Copiar Código
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Timer e Instruções -->
+                            <div class="pix-instructions">
+                                <div class="timer-section">
+                                    <div class="timer-header">
+                                        <i class="fas fa-clock"></i>
+                                        <span>TEMPO RESTANTE</span>
+                                    </div>
+                                    <div class="pix-timer" id="pixTimer">
+                                        <div class="timer-circle">
+                                            <svg class="timer-svg" viewBox="0 0 100 100">
+                                                <circle class="timer-background" cx="50" cy="50" r="45"></circle>
+                                                <circle class="timer-progress" cx="50" cy="50" r="45"></circle>
+                                            </svg>
+                                            <div class="timer-text">30:00</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="instructions-list">
+                                    <h5><i class="fas fa-list-check"></i> COMO PAGAR:</h5>
+                                    <ol>
+                                        <li>Abra o app do seu banco</li>
+                                        <li>Selecione "Pagar com PIX"</li>
+                                        <li>Escaneie o QR Code ou cole o código</li>
+                                        <li>Confira os dados e confirme o pagamento</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Status de Pagamento -->
+                    <div class="payment-status" id="paymentStatus" style="display: none;">
+                        <div class="status-content">
+                            <div class="status-icon">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </div>
+                            <div class="status-text">
+                                <h5>AGUARDANDO PAGAMENTO</h5>
+                                <p>Aguardando confirmação do seu banco...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Botões de Ação -->
+                <div class="checkout-actions">
+                    <button class="btn-primary" id="generatePixBtn">
+                        <i class="fas fa-qrcode"></i>
+                        GERAR QR CODE PIX
+                    </button>
+                    <button class="btn-secondary" id="cancelCheckout">
+                        <i class="fas fa-times"></i>
+                        Cancelar Compra
+                    </button>
+                </div>
+                
+                <!-- Garantias e Segurança -->
+                <div class="checkout-guarantees">
+                    <div class="guarantee-item">
+                        <i class="fas fa-lock"></i>
+                        <span>Pagamento 100% seguro</span>
+                    </div>
+                    <div class="guarantee-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Dados protegidos</span>
+                    </div>
+                    <div class="guarantee-item">
+                        <i class="fas fa-headset"></i>
+                        <span>Suporte 24/7</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+    <script>
+        // =============================================================================
+        // CONFIGURAÇÃO DA API - AUTOMÁTICA PARA DEV/PROD
+        // =============================================================================
+
+        // Detecta automaticamente se está em localhost ou GitHub Pages
+        const isDevelopment = window.location.hostname === 'localhost' || 
+                              window.location.hostname === '127.0.0.1';
+
+        // URLs da API
+        const DEV_API_URL = 'http://localhost:5000';
+        const PROD_API_URL = 'https://venda-hoje-api.onrender.com'; // Render GRÁTIS
+
+        // Usa a URL correta automaticamente
+        const FLASK_API_URL = isDevelopment ? DEV_API_URL : PROD_API_URL;
+
+        // Log para debug
+        console.log(`🔧 Ambiente: ${isDevelopment ? 'Desenvolvimento' : 'Produção'}`);
+        console.log(`🌐 API URL: ${FLASK_API_URL}`);
+
+        const PRODUCT_PRICE = 890;
+
+        // Elementos do DOM
+        const checkoutButton = document.getElementById('checkout-button');
+        const checkoutModal = document.getElementById('checkoutModal');
+        const closeCheckout = document.getElementById('closeCheckout');
+        const cancelCheckout = document.getElementById('cancelCheckout');
+        const generatePixBtn = document.getElementById('generatePixBtn');
+        const copyPixBtn = document.getElementById('copyPixBtn');
+        const pixLoading = document.getElementById('pixLoading');
+        const pixContent = document.getElementById('pixContent');
+        const pixCopy = document.getElementById('pixCopy');
+        const paymentStatus = document.getElementById('paymentStatus');
+        const timerProgress = document.querySelector('.timer-progress');
+        const timerText = document.querySelector('.timer-text');
+
+        // Variáveis globais
+        let transactionId = null;
+        let timerInterval = null;
+        let progressInterval = null;
+
+        // Abrir modal ao clicar no botão de checkout
+        checkoutButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            checkoutModal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            resetCheckoutForms();
+        });
+
+        // Fechar modal
+        function closeModal() {
+            checkoutModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            resetCheckoutForms();
+        }
+
+        closeCheckout.addEventListener('click', closeModal);
+        cancelCheckout.addEventListener('click', closeModal);
+
+        // Fechar ao clicar fora do modal
+        checkoutModal.addEventListener('click', function(e) {
+            if (e.target === checkoutModal) {
+                closeModal();
+            }
+        });
+
+        // Gerar QR Code PIX
+        generatePixBtn.addEventListener('click', async function() {
+            await createPixPayment();
+        });
+
+        // ✅ FUNÇÃO PARA GERAR QR CODE SEM BIBLIOTECA
+        function generateQRCodeWithoutLibrary(qrCodeText, containerId) {
+            const container = document.getElementById(containerId);
+            if (!container || !qrCodeText) return;
+            
+            // Usar API pública para gerar QR Code
+            const encodedText = encodeURIComponent(qrCodeText);
+            const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodedText}`;
+            
+            container.innerHTML = `
+                <img src="${qrCodeUrl}" 
+                     alt="QR Code PIX" 
+                     style="width:200px; height:200px; border:1px solid #ddd; border-radius:10px;"
+                     onerror="this.onerror=null; this.src='https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=${encodedText}&choe=UTF-8';">
+            `;
+            
+            return true;
+        }
+
+        // ✅ FUNÇÃO PARA CRIAR PAGAMENTO PIX
+        async function createPixPayment() {
+            try {
+                // Atualizar interface para estado de loading
+                generatePixBtn.disabled = true;
+                generatePixBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>GERANDO QR CODE...</span>';
+                
+                pixLoading.style.display = 'block';
+                pixContent.style.display = 'none';
+                paymentStatus.style.display = 'none';
+
+                // Dados para enviar para a API Flask
+                const paymentData = {
+                    customer: {
+                        name: "Cliente Venda Hoje",
+                        email: "cliente@vendahoje.com",
+                        document: "00000000191"
+                    },
+                    amount: PRODUCT_PRICE,
+                    description: "Mentoria Venda Hoje - Acesso Vitalício"
+                };
+
+                // Chamar API Flask
+                const response = await axios.post(
+                    `${FLASK_API_URL}/create-payment`,
+                    paymentData,
+                    {
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    }
+                );
+
+                // Verificar se a resposta foi bem-sucedida
+                if (response.data.success) {
+                    const transaction = response.data.transaction;
+                    const pixData = response.data.pix;
+                    
+                    transactionId = transaction.id;
+
+                    // ✅ USAR NOSSA FUNÇÃO QUE NÃO DEPENDE DE BIBLIOTECA
+                    if (pixData.qr_code) {
+                        generateQRCodeWithoutLibrary(pixData.qr_code, 'qrCodeContainer');
+
+                        // Mostrar código PIX para copiar
+                        const pixCode = pixData.code || pixData.copy_paste || pixData.qr_code;
+                        pixCopy.innerHTML = `
+                            <span>${pixCode}</span>
+                        `;
+
+                        // Configurar botão de cópia
+                        copyPixBtn.addEventListener('click', function() {
+                            navigator.clipboard.writeText(pixCode)
+                                .then(() => {
+                                    // Feedback visual
+                                    const originalText = copyPixBtn.innerHTML;
+                                    copyPixBtn.innerHTML = '<i class="fas fa-check"></i> CÓDIGO COPIADO!';
+                                    copyPixBtn.style.background = 'rgba(76, 175, 80, 0.1)';
+                                    copyPixBtn.style.borderColor = 'rgba(76, 175, 80, 0.3)';
+                                    copyPixBtn.style.color = '#4CAF50';
+                                    
+                                    setTimeout(() => {
+                                        copyPixBtn.innerHTML = '<i class="fas fa-copy"></i> Copiar Código';
+                                        copyPixBtn.style.background = 'rgba(255, 122, 0, 0.1)';
+                                        copyPixBtn.style.borderColor = 'rgba(255, 122, 0, 0.2)';
+                                        copyPixBtn.style.color = 'var(--secondary-color)';
+                                    }, 2000);
+                                });
+                        });
+
+                        // Mostrar conteúdo PIX
+                        pixLoading.style.display = 'none';
+                        pixContent.style.display = 'block';
+                        paymentStatus.style.display = 'block';
+                        
+                        // Atualizar botão
+                        generatePixBtn.innerHTML = '<i class="fas fa-qrcode"></i><span>QR CODE GERADO</span>';
+                        generatePixBtn.style.background = 'rgba(50, 188, 173, 0.1)';
+                        generatePixBtn.style.borderColor = 'rgba(50, 188, 173, 0.3)';
+                        generatePixBtn.style.color = '#32BCAD';
+                        generatePixBtn.disabled = true;
+
+                        // Iniciar timer com animação
+                        startPixTimerWithAnimation(30 * 60);
+
+                        // Iniciar verificação do pagamento
+                        checkPaymentStatus();
+                    } else {
+                        throw new Error('QR Code não recebido da API');
+                    }
+                } else {
+                    throw new Error(response.data.message || 'Erro ao criar pagamento');
+                }
+
+            } catch (error) {
+                console.error('Erro ao criar pagamento PIX:', error);
+                
+                let errorMessage = 'Não foi possível gerar o QR Code. Tente novamente.';
+                if (error.response) {
+                    console.error('Resposta de erro:', error.response.data);
+                    if (error.response.data.message) {
+                        errorMessage = error.response.data.message;
+                    }
+                }
+                
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro',
+                    text: errorMessage,
+                    confirmButtonColor: '#FF7A00'
+                });
+                
+                resetCheckoutForms();
+                generatePixBtn.innerHTML = '<i class="fas fa-qrcode"></i><span>GERAR QR CODE PIX</span>';
+                generatePixBtn.disabled = false;
+            }
+        }
+
+        // Nova função para timer com animação
+        function startPixTimerWithAnimation(seconds) {
+            let timeLeft = seconds;
+            const circumference = 2 * Math.PI * 45;
+            timerProgress.style.strokeDasharray = circumference;
+            
+            // Limpar timers anteriores
+            if (timerInterval) clearInterval(timerInterval);
+            if (progressInterval) clearInterval(progressInterval);
+            
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                const minutes = Math.floor(timeLeft / 60);
+                const secs = timeLeft % 60;
+                
+                // Atualizar texto
+                timerText.textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                
+                // Atualizar animação do círculo
+                const offset = circumference - (timeLeft / (30 * 60)) * circumference;
+                timerProgress.style.strokeDashoffset = offset;
+                
+                // Mudar cor conforme o tempo diminui
+                if (timeLeft < 300) { // Menos de 5 minutos
+                    timerProgress.style.stroke = '#ff5252';
+                } else if (timeLeft < 600) { // Menos de 10 minutos
+                    timerProgress.style.stroke = '#ff9800';
+                }
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    showExpiredMessage();
+                }
+            }, 1000);
+        }
+
+        // Mostrar mensagem de tempo expirado
+        function showExpiredMessage() {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Tempo esgotado',
+                text: 'O QR Code expirou. Gere um novo.',
+                confirmButtonColor: '#FF7A00'
+            }).then(() => {
+                resetPixForm();
+            });
+        }
+
+        // Verificar status do pagamento
+        async function checkPaymentStatus() {
+            if (!transactionId) return;
+
+            try {
+                const response = await axios.get(
+                    `${FLASK_API_URL}/check-payment/${transactionId}`
+                );
+
+                if (response.data.success) {
+                    const status = response.data.status;
+
+                    if (status === 'paid') {
+                        clearInterval(timerInterval);
+                        showSuccessMessage();
+                    } else if (status === 'expired') {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Pagamento expirado',
+                            text: 'Gere um novo QR Code',
+                            confirmButtonColor: '#FF7A00'
+                        });
+                        resetPixForm();
+                    } else {
+                        // Continuar verificando a cada 5 segundos
+                        setTimeout(checkPaymentStatus, 5000);
+                    }
+                } else {
+                    // Tentar novamente após 10 segundos em caso de erro
+                    setTimeout(checkPaymentStatus, 10000);
+                }
+
+            } catch (error) {
+                console.error('Erro ao verificar status:', error);
+                setTimeout(checkPaymentStatus, 10000);
+            }
+        }
+
+        // Mostrar mensagem de sucesso
+        function showSuccessMessage() {
+            Swal.fire({
+                icon: 'success',
+                title: 'Parabéns!',
+                html: `
+                    <div style="text-align: center; padding: 20px;">
+                        <div style="font-size: 4rem; color: #4CAF50; margin-bottom: 20px;">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h3>Pagamento Confirmado!</h3>
+                        <p>Seu acesso à mentoria será liberado em instantes.</p>
+                        <p style="color: #FF7A00; font-weight: bold;">
+                            Verifique seu e-mail para os próximos passos
+                        </p>
+                    </div>
+                `,
+                showConfirmButton: true,
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#FF7A00',
+                allowOutsideClick: false
+            }).then(() => {
+                closeModal();
+                // Aqui você pode redirecionar para página de obrigado ou área de membros
+                // window.location.href = '/obrigado';
+            });
+        }
+
+        // Resetar formulários do checkout
+        function resetCheckoutForms() {
+            // Reset PIX
+            pixLoading.style.display = 'none';
+            pixContent.style.display = 'none';
+            paymentStatus.style.display = 'none';
+            document.getElementById('qrCodeContainer').innerHTML = '';
+            pixCopy.innerHTML = '';
+            
+            // Reset timers
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+            if (progressInterval) {
+                clearInterval(progressInterval);
+                progressInterval = null;
+            }
+            
+            // Reset botão
+            generatePixBtn.disabled = false;
+            generatePixBtn.innerHTML = '<i class="fas fa-qrcode"></i><span>GERAR QR CODE PIX</span>';
+            generatePixBtn.style.background = '';
+            generatePixBtn.style.borderColor = '';
+            generatePixBtn.style.color = '';
+            
+            // Reset variáveis
+            transactionId = null;
+            
+            // Reset timer visual
+            timerProgress.style.strokeDashoffset = '283';
+            timerProgress.style.stroke = 'var(--secondary-color)';
+            timerText.textContent = '30:00';
+        }
+
+        function resetPixForm() {
+            pixLoading.style.display = 'none';
+            pixContent.style.display = 'none';
+            paymentStatus.style.display = 'none';
+            document.getElementById('qrCodeContainer').innerHTML = '';
+            pixCopy.innerHTML = '';
+            
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+            
+            generatePixBtn.disabled = false;
+            generatePixBtn.innerHTML = '<i class="fas fa-qrcode"></i><span>GERAR QR CODE PIX</span>';
+            generatePixBtn.style.background = '';
+            generatePixBtn.style.borderColor = '';
+            generatePixBtn.style.color = '';
+        }
+
+        // Testar conexão com a API Flask
+        async function testApiConnection() {
+            try {
+                const response = await axios.get(`${FLASK_API_URL}/health`);
+                console.log('Conexão com API Flask OK:', response.data);
+                return true;
+            } catch (error) {
+                console.error('Erro na conexão com API Flask:', error.message);
+                return false;
+            }
+        }
+
+        // Código original da landing page
+        function updateCountdown() {
+            const now = new Date();
+            const endOfDay = new Date();
+            endOfDay.setHours(23, 59, 59, 999);
+            
+            const timeLeft = endOfDay - now;
+            
+            if (timeLeft > 0) {
+                const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+                
+                document.getElementById('countdown').textContent = 
+                    `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            } else {
+                document.getElementById('countdown').textContent = "00:00:00";
+                document.querySelector('.offer-banner').style.background = 'linear-gradient(135deg, #f44336 0%, #d32f2f 100%)';
+            }
+        }
+        
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+        
+        // Header scroll effect
+        let lastScrollTop = 0;
+        const header = document.getElementById('main-header');
+        const offerBanner = document.querySelector('.offer-banner');
+        
+        function updateHeaderPosition() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const bannerHeight = offerBanner.offsetHeight;
+            
+            if (scrollTop > 100) {
+                header.classList.add('header-scrolled');
+                header.style.top = '0';
+            } else {
+                header.classList.remove('header-scrolled');
+                header.style.top = bannerHeight + 'px';
+            }
+            
+            lastScrollTop = scrollTop;
+        }
+        
+        window.addEventListener('scroll', updateHeaderPosition);
+        
+        // Ajustar top do header quando a página carrega
+        window.addEventListener('load', function() {
+            const bannerHeight = offerBanner.offsetHeight;
+            header.style.top = bannerHeight + 'px';
+            updateHeaderPosition();
+        });
+        
+        // Ajustar quando a janela é redimensionada
+        window.addEventListener('resize', function() {
+            setTimeout(() => {
+                const bannerHeight = offerBanner.offsetHeight;
+                if (window.pageYOffset <= 100) {
+                    header.style.top = bannerHeight + 'px';
+                }
+                updateHeaderPosition();
+            }, 100);
+        });
+
+        // Smooth scrolling para links âncora
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    const headerOffset = 100;
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Interação com botão de checkout
+        checkoutButton.addEventListener('click', function(e) {
+            if ('vibrate' in navigator) {
+                navigator.vibrate(50);
+            }
+            
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 200);
+        });
+        
+        // Otimizar performance em mobile
+        if ('IntersectionObserver' in window) {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -100px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if(entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                        entry.target.style.filter = 'blur(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // Aplicar animação aos elementos
+            document.querySelectorAll('.learning-card, .confidence-card, .not-card, .for-whom-card, .platform').forEach((el, index) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.filter = 'blur(5px)';
+                el.style.transition = 'opacity 0.8s ease, transform 0.8s ease, filter 0.8s ease';
+                el.style.transitionDelay = `${Math.min(index * 0.1, 0.5)}s`;
+                observer.observe(el);
+            });
+        }
+        
+        // Detectar touch device
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        if (isTouchDevice) {
+            document.body.classList.add('touch-device');
+            
+            // Melhorar experiência tátil
+            document.querySelectorAll('.btn, .platform, .trust-badge').forEach(el => {
+                el.style.cursor = 'pointer';
+            });
+        }
+
+        // Testar conexão quando a página carrega
+        window.addEventListener('load', async () => {
+            const connected = await testApiConnection();
+            if (!connected) {
+                console.warn('Não foi possível conectar à API Flask');
+                // Mostrar alerta suave
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Aviso',
+                    text: 'API de pagamento temporariamente indisponível. Tente novamente em alguns instantes.',
+                    timer: 3000,
+                    showConfirmButton: false,
+                    confirmButtonColor: '#FF7A00'
+                });
+            }
+        });
+    </script>
+</body>
+</html>

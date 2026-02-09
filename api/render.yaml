@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: venda-hoje-api
+    runtime: python
+    plan: free
+    autoDeploy: true
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: GHOSTPAY_SECRET_KEY
+        sync: false
+      - key: GHOSTPAY_COMPANY_ID
+        sync: false
