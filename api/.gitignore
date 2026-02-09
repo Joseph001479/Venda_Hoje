@@ -1,13 +1,27 @@
-# NÃO subir API para GitHub Pages
-api/
-
-# Nunca subir senhas
+# Arquivos de ambiente (NUNCA subir!)
 .env
 *.env
 
-# Python
+# Python cache
 __pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Virtual environments
 venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
 
 # Sistema
 .DS_Store
