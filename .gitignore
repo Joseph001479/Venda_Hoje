@@ -1,0 +1,14 @@
+# NÃO subir API para GitHub Pages
+api/
+
+# Nunca subir senhas
+.env
+*.env
+
+# Python
+__pycache__/
+venv/
+
+# Sistema
+.DS_Store
+Thumbs.db
